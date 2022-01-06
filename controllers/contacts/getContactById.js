@@ -4,8 +4,8 @@ const { Contact } = require('../../models');
 
 const getContactById = async (req, res) => {
   const { id } = req.params;
-  console.log(req.params);
-  const result = await Contact.findById(id);
+  const { _id: owner } = req.user;
+  const result = await Contact.findOne({ id, owner });
   if (!result) {
     throw new NotFound(`Contact with id=${id} not found`);
   }
