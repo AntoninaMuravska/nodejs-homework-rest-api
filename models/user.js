@@ -25,6 +25,14 @@ const userSchema = Schema(
     avatarURL: {
       type: String,
     },
+    verify: {
+      type: Boolean,
+      default: false,
+    },
+    verificationToken: {
+      type: String,
+      required: [true, 'Verify token is required'],
+    },
   },
   { versionKey: false, timestamps: true },
 );
@@ -41,6 +49,10 @@ const joiLoginSchema = Joi.object({
   email: Joi.string().required(),
 });
 
+const verifyEmailJoiSchema = Joi.object({
+  email: Joi.string().email().required(),
+});
+
 userSchema.methods.comparePassword = function (password) {
   return bcrypt.compareSync(password, this.password);
 };
@@ -51,4 +63,5 @@ module.exports = {
   User,
   joiSignupSchema,
   joiLoginSchema,
+  verifyEmailJoiSchema,
 };

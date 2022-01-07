@@ -5,7 +5,15 @@ const tempDir = path.join(__dirname, '../', 'tmp');
 
 const multerConfig = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, tempDir);
+    if (
+      file.mimetype === 'image/jpeg' ||
+      file.mimetype === 'image/jpg' ||
+      file.mimetype === 'image/png'
+    ) {
+      cb(null, tempDir);
+    } else {
+      return cb(new Error('Only images are allowed'));
+    }
   },
   filename: (req, file, cb) => {
     cb(null, file.originalname);
