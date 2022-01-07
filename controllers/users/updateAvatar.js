@@ -20,7 +20,7 @@ const updateAvatar = async (req, res) => {
         throw error;
       });
 
-    const avatarURL = path.join('public', 'avatars', imageName);
+    const avatarURL = path.join(avatarsDir, imageName);
     await User.findByIdAndUpdate(req.user._id, { avatarURL });
     res.json({
       status: 'success',

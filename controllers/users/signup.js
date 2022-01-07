@@ -11,11 +11,11 @@ const signup = async (req, res) => {
     throw new Conflict(`User with ${email} is already exist`);
   }
 
-  const avatarURL = gravatar.url(email);
+  const avatarURL = gravatar.url(email, { protocol: 'https' });
 
   const hashPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
 
-  await User.create({ email, avatarURL, password: hashPassword });
+  await User.create({ email, avatarURL, password: hashPassword, subscription });
 
   res.status(201).json({
     status: 'success',
