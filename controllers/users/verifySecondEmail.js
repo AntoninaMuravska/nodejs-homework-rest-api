@@ -1,5 +1,4 @@
 const { BadRequest, NotFound } = require('http-errors');
-const { nanoid } = require('nanoid');
 const { User } = require('../../models');
 const { sendEmail } = require('../../helpers');
 
@@ -14,12 +13,10 @@ const verifySecondEmail = async (req, res) => {
     throw BadRequest('Verification has already been passed');
   }
 
-  const verificationToken = nanoid();
-
   const userEmail = {
     to: email,
     subject: 'Проверка email',
-    html: `<a target='_blank' href='http://localhost:3000/api/users/verify/${verificationToken}'>Проверить email</a>`,
+    html: `<a target='_blank' href='http://localhost:3000/api/users/verify/${user.verificationToken}'>Проверить email</a>`,
   };
 
   await sendEmail(userEmail);
